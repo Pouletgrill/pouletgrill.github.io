@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projet PCB custom pour WLED">
+    <title>Projet PCB Custom - WLED</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1f1f1f;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            color: #4CAF50;
+            font-size: 2rem;
+            text-align: center; /* Centrer le titre sur tous les écrans */
+            flex-grow: 1; /* Permet au titre de prendre tout l'espace disponible */
+        }
+        header img {
+            max-height: 50px;
+            margin-right: 1rem;
+        }
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background-color: #1f1f1f;
+            padding: 2rem;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centre les boutons horizontalement */
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        nav a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+            font-size: 1.1rem;
+            flex: 1 1 200px; /* Minimum size for buttons with flex-grow */
+            max-width: 300px;
+        }
+        nav a:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .photo-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+        .photo-gallery img:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: #1f1f1f;
+            text-align: center;
+            padding: 1rem;
+            color: #777;
+        }
+        footer p {
+            margin: 0;
+        }
+        .contact {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .contact a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            header img {
+                max-height: 40px;
+            }
+            main {
+                padding: 1rem;
+            }
+            nav {
+                flex-direction: column;
+                align-items: center; /* Centre les boutons verticalement */
+            }
+            nav a {
+                flex: 1 1 auto;
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+            }
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* Smaller mobile devices */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.25rem;
+            }
+            header img {
+                max-height: 35px;
+            }
+            nav a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            .photo-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://lien-vers-logo" alt="Logo du projet">
+        <h1>Projet PCB Custom pour WLED</h1>
+    </header>
+    
+    <main>
+        <section>
+            <p>Bienvenue sur la page du projet de PCB custom pour WLED. Vous trouverez ici tous les liens et ressources nécessaires, ainsi que des photos du projet.</p>
+        </section>
+        
+        <nav>
+            <a href="http://git.pouletgrill.com/" target="_blank">Mon GitHub</a>
+            <a href="http://pouletgrill.com/" target="_blank">Siteweb</a>
+            <!--<a href="https://lien-vers-plans-pcb" target="_blank">Plans PCB</a> -->
+        </nav>
+        
+        <section class="photo-gallery">
+            <img src="https://lien-vers-photo1" alt="Photo 1">
+            <img src="https://lien-vers-photo2" alt="Photo 2">
+            <img src="https://lien-vers-photo3" alt="Photo 3">
+            <!-- Ajoute d'autres photos ici -->
+        </section>
+        
+        <section class="contact">
+            <p>Contactez-moi : <a href="mailto:contact@pouletgrill.com">contact@pouletgrill.com</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 pouletgrill.com. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
