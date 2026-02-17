@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PouletGrill — HelloFresh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,600;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:    #C8102E;
+      --yellow: #F5C518;
+      --black:  #0D0D0D;
+      --dark:   #161616;
+      --smoke:  #1e1e1e;
+      --cream:  #FFF5E1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── LANG ── */
+    .lang-hidden { display: none !important; }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #ffffff30;
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      display: flex; gap: 0.5rem; align-items: center;
+    }
+    .lang-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .lang-btn .lbl { opacity: 0.3; transition: opacity 0.2s, color 0.2s; }
+    .lang-btn .lbl.active { opacity: 1; color: var(--yellow); }
+    .lang-divider { opacity: 0.15; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 110%, #C8102E55 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 30% 90%,  #F5C51822 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 70% 85%,  #C8102E33 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid #ffffff10;
+      position: relative; z-index: 10;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      color: var(--yellow);
+      text-shadow: 0 0 30px #F5C51866;
+    }
+    .nav-right { display: flex; gap: 1rem; align-items: center; }
+    .nav-badge {
+      background: var(--red);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      animation: pulse-badge 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 #C8102E66; }
+      50%       { box-shadow: 0 0 0 8px #C8102E00; }
+    }
+
+    .hero-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      position: relative; z-index: 10;
+      gap: 1.5rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.9rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 14vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-title span { color: var(--yellow); display: block; }
+    .hero-sub {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      color: #ffffff88;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+    .scroll-hint {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #ffffff44;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      padding-bottom: 2.5rem;
+      position: relative; z-index: 10;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards;
+    }
+    .scroll-arrow {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--yellow));
+      animation: scrollArrow 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollArrow {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50%       { transform: scaleY(0.5); opacity: 0.4; }
+    }
+
+    /* ── FOOD STRIP ── */
+    .food-strip { display: flex; gap: 0; height: 220px; overflow: hidden; }
+    .food-strip-img {
+      flex: 1;
+      background-size: cover; background-position: center;
+      filter: brightness(0.65) saturate(1.2);
+      transition: filter 0.4s, flex 0.4s;
+      cursor: pointer;
+    }
+    .food-strip-img:hover { flex: 2; filter: brightness(0.85) saturate(1.5); }
+    .fs1 { background-image: url('https://images.unsplash.com/photo-1598514982901-54f5a4b2a0a0?w=600&q=80'); }
+    .fs2 { background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80'); }
+    .fs3 { background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80'); }
+    .fs4 { background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80'); }
+    .fs5 { background-image: url('https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80'); }
+    .food-strip-img:not(:last-child) { border-right: 2px solid var(--black); }
+
+    /* ── OFFER ── */
+    .offer {
+      background: var(--dark);
+      padding: 5rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 3.5rem;
+      position: relative; overflow: hidden;
+    }
+    .offer::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--yellow), var(--red), transparent);
+    }
+    .offer-header { text-align: center; display: flex; flex-direction: column; gap: 1rem; }
+    .offer-label {
+      font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--red);
+    }
+    .offer-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: 1; color: var(--cream);
+    }
+    .offer-title em { color: var(--yellow); font-style: normal; }
+    .offer-desc {
+      font-size: 1.15rem; color: #ffffff77; max-width: 460px; line-height: 1.65;
+    }
+    .offer-desc strong { color: var(--cream); font-weight: 600; }
+
+    /* ── QR CARD ── */
+    .qr-card {
+      background: var(--smoke);
+      border: 1px solid #ffffff10;
+      border-radius: 4px;
+      padding: 2.5rem 3rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      box-shadow: 0 0 0 1px #ffffff05, 0 30px 80px #00000066, 0 0 60px #C8102E22;
+      position: relative; max-width: 380px; width: 100%;
+    }
+    .qr-card::before, .qr-card::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--yellow); border-style: solid;
+    }
+    .qr-card::before { top: -1px; left: -1px;  border-width: 2px 0 0 2px; }
+    .qr-card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .qr-corner2::before, .qr-corner2::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--yellow); border-style: solid;
+    }
+    .qr-corner2::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+    .qr-corner2::after  { top: -1px; right: -1px;  border-width: 2px 2px 0 0; }
+
+    .qr-label-top {
+      font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: #ffffff44;
+    }
+    .qr-frame {
+      position: relative; padding: 12px;
+      background: #fff; border-radius: 2px;
+      box-shadow: 0 0 40px #F5C51833;
+    }
+    .qr-frame img, .qr-placeholder { display: block; width: 200px; height: 200px; }
+    .qr-placeholder {
+      background: #f0f0f0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: #999;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.1em; text-align: center; padding: 1rem;
+    }
+    .qr-placeholder svg { opacity: 0.3; }
+    .qr-value-tag {
+      background: var(--red); color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 0.06em;
+      padding: 0.2rem 1.2rem; border-radius: 2px;
+    }
+    .qr-instructions {
+      font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: #ffffff44; text-align: center; line-height: 1.8;
+    }
+
+    /* ── STEPS ── */
+    .steps { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; max-width: 800px; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center; max-width: 180px; }
+    .step-num {
+      width: 40px; height: 40px;
+      border: 1px solid var(--yellow); color: var(--yellow);
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    }
+    .step-text { font-size: 0.9rem; color: #ffffff66; line-height: 1.5; }
+
+    /* ── MOSAIC ── */
+    .mosaic { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 260px 260px; gap: 4px; }
+    .mosaic-item { background-size: cover; background-position: center; position: relative; overflow: hidden; }
+    .mosaic-item::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, #00000088 100%);
+    }
+    .mosaic-item:first-child { grid-column: 1 / 2; grid-row: 1 / 3; }
+    .m1 { background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80'); filter: brightness(0.7) saturate(1.1); }
+    .m2 { background-image: url('https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=80'); filter: brightness(0.7) saturate(1.2); }
+    .m3 { background-image: url('https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80'); filter: brightness(0.65) saturate(1.1); }
+    .m4 { background-image: url('https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80'); filter: brightness(0.65) saturate(1.3); }
+    .m5 { background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80'); filter: brightness(0.65) saturate(1.1); }
+    .mosaic-item:hover::after { background: linear-gradient(180deg, #C8102E22 0%, #00000099 100%); }
+
+    /* ── BAND ── */
+    .band { background: var(--red); padding: 1.2rem 0; overflow: hidden; position: relative; }
+    .band-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+    .band-item {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+      letter-spacing: 0.2em; color: #fff; padding: 0 2rem; opacity: 0.85; flex-shrink: 0;
+    }
+    .band-dot { color: var(--yellow); opacity: 1; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0a0a; padding: 3rem 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      border-top: 1px solid #ffffff08;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.1em; color: #ffffff22; }
+    .footer-rule { width: 40px; height: 2px; background: var(--yellow); opacity: 0.4; }
+    .footer-text { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #ffffff22; text-align: center; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-logo { font-size: 1.5rem; }
+      .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 200px); }
+      .mosaic-item:first-child { grid-column: 1 / 3; grid-row: 1 / 2; }
+      .food-strip { height: 130px; }
+      .qr-card { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <nav>
+    <div class="nav-logo">🔥 Casse-Croûte</div>
+    <div class="nav-right">
+      <div class="nav-badge" data-lang="fr">Offre limitée</div>
+      <div class="nav-badge" data-lang="en" class="lang-hidden">Limited Offer</div>
+      <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language">
+        <span class="lbl active" id="lbl-fr">FR</span>
+        <span class="lang-divider">|</span>
+        <span class="lbl" id="lbl-en">EN</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero-body">
+    <p class="hero-eyebrow" data-lang="fr">Bienvenue · Mangez mieux · Chaque jour</p>
+    <p class="hero-eyebrow" data-lang="en" class="lang-hidden">Welcome · Eat Better · Every Day</p>
+
+    <h1 class="hero-title" data-lang="fr">La Vraie<br><span>Bonne&nbsp;Bouffe</span></h1>
+    <h1 class="hero-title" data-lang="en" class="lang-hidden">Home<br><span>Cooked&nbsp;Right</span></h1>
+
+    <p class="hero-sub" data-lang="fr">Recettes fraîches, ingrédients de qualité, prêts à cuisiner.</p>
+    <p class="hero-sub" data-lang="en" class="lang-hidden">Fresh recipes, quality ingredients, ready to cook.</p>
+  </div>
+
+  <div class="scroll-hint">
+    <span data-lang="fr">Voir l'offre</span>
+    <span data-lang="en" class="lang-hidden">See the offer</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOD STRIP ══════════════ -->
+<div class="food-strip" aria-hidden="true">
+  <div class="food-strip-img fs1"></div>
+  <div class="food-strip-img fs2"></div>
+  <div class="food-strip-img fs3"></div>
+  <div class="food-strip-img fs4"></div>
+  <div class="food-strip-img fs5"></div>
+</div>
+
+<!-- ══════════════ OFFER ══════════════ -->
+<section class="offer" id="offre">
+
+  <!-- FR -->
+  <div class="offer-header reveal" data-lang="fr">
+    <p class="offer-label">✦ Promotion exclusive</p>
+    <h2 class="offer-title">Offrez un repas,<br><em>recevez un crédit</em></h2>
+    <p class="offer-desc">
+      Offrez à un ami une <strong>semaine de repas gratuite</strong> et recevez
+      un <strong>crédit de 60&nbsp;$</strong> dès qu'il s'inscrit avec votre code
+      personnel. Scannez le code ci-dessous pour commencer.
+    </p>
+  </div>
+
+  <!-- EN -->
+  <div class="offer-header reveal" data-lang="en" class="lang-hidden">
+    <p class="offer-label">✦ Exclusive Offer</p>
+    <h2 class="offer-title">Give a meal,<br><em>get a credit</em></h2>
+    <p class="offer-desc">
+      Gift a friend a <strong>free week of meals</strong> and you will receive
+      a <strong>$60 credit</strong> when they sign up using your personal code.
+      Scan below to get started.
+    </p>
+  </div>
+
+  <!-- QR CARD (langue-agnostique) -->
+  <div class="qr-card qr-corner2 reveal">
+    <p class="qr-label-top" data-lang="fr">✦ Scannez pour activer ✦</p>
+    <p class="qr-label-top" data-lang="en" class="lang-hidden">✦ Scan to activate ✦</p>
+
+    <div class="qr-frame">
+
+        <a href="https://bit.ly/3qG5C8x?r=qr"><img src="Frame.png" alt="https://bit.ly/3qG5C8x?r=qr" width="200" height="200" /></a>
+      
+
+    </div>
+
+    <a href="https://bit.ly/3qG5C8x?r=qr" style="text-decoration: none;"><div class="qr-value-tag" data-lang="fr">SEMAINE GRATUITE</div></a>
+    <a href="https://bit.ly/3qG5C8x?r=qr" style="text-decoration: none;"><div class="qr-value-tag" data-lang="en" class="lang-hidden">FREE WEEK</div></a>
+
+    <p class="qr-instructions" data-lang="fr">
+      Ouvrez la caméra<br>pointez · scannez · savourez
+    </p>
+    <p class="qr-instructions" data-lang="en" class="lang-hidden">
+      Open your camera<br>point · scan · enjoy
+    </p>
+  </div>
+
+  <!-- STEPS FR -->
+  <div class="steps reveal" data-lang="fr">
+    <div class="step">
+      <div class="step-num">1</div>
+      <p class="step-text">Scannez le code avec votre téléphone</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <p class="step-text">Choisissez vos recettes préférées</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <p class="step-text">Recevez et cuisinez votre boîte</p>
+    </div>
+  </div>
+
+  <!-- STEPS EN -->
+  <div class="steps reveal" data-lang="en" class="lang-hidden">
+    <div class="step">
+      <div class="step-num">1</div>
+      <p class="step-text">Scan the code with your phone</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <p class="step-text">Pick your favourite recipes</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <p class="step-text">Receive your box and start cooking</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════ BAND ══════════════ -->
+<div class="band" aria-hidden="true">
+  <div class="band-track" id="band-track"></div>
+</div>
+
+<!-- ══════════════ MOSAIC ══════════════ -->
+<div class="mosaic" aria-hidden="true">
+  <div class="mosaic-item m1"></div>
+  <div class="mosaic-item m2"></div>
+  <div class="mosaic-item m3"></div>
+  <div class="mosaic-item m4"></div>
+  <div class="mosaic-item m5"></div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-logo">Casse-Croûte</div>
+  <div class="footer-rule"></div>
+  <p class="footer-text" data-lang="fr">Offre valide pour les nouveaux abonnés · Voir conditions</p>
+  <p class="footer-text" data-lang="en" class="lang-hidden">Offer valid for new subscribers · See conditions</p>
+</footer>
+
+<script>
+  // ── LANGUAGE TOGGLE ──
+  let currentLang = 'fr';
+
+  const bandTexts = {
+    fr: ['Miam du poulet!', 'Recettes testées', 'Hello Fresh', 'Sans engagement', 'Ingrédients frais', 'Cuisiner maison'],
+    en: ['Lava Chiken', 'Tested Recipes', 'Hello Fresh', 'No Commitment', 'Fresh Ingredients', 'Cook at Home']
+  };
+
+  function buildBand(lang) {
+    const track = document.getElementById('band-track');
+    const items = bandTexts[lang];
+    // duplicate for seamless loop
+    const all = [...items, ...items];
+    track.innerHTML = all.map(t =>
+      `<span class="band-item">${t}</span><span class="band-dot band-item">✦</span>`
+    ).join('');
+    // reset animation
+    track.style.animation = 'none';
+    track.offsetHeight; // reflow
+    track.style.animation = '';
+  }
+
+  function toggleLang() {
+    currentLang = currentLang === 'fr' ? 'en' : 'fr';
+    applyLang();
+  }
+
+  function applyLang() {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('lang-hidden', el.dataset.lang !== currentLang);
+    });
+    document.getElementById('lbl-fr').classList.toggle('active', currentLang === 'fr');
+    document.getElementById('lbl-en').classList.toggle('active', currentLang === 'en');
+    document.documentElement.lang = currentLang;
+    buildBand(currentLang);
+  }
+
+  // Init
+  applyLang();
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.15 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
